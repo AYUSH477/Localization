@@ -5,14 +5,14 @@
 #include <cmath>
 class Rectangle: public Prim{
 	public:
-		Rectangle(cv::Vec2f v1, cv::Vec2f v2, cv::Vec2f v3, cv::Vec2f v4): Prim(), v1(v1),v2(v2), v3(v3), v4(v4) {}
+		Rectangle(Vector<float> v1, Vector<float> v2, Vector<float> v3, Vector<float> v4): Prim(), v1(v1),v2(v2), v3(v3), v4(v4) {}
 		
 		
-		float vector (cv::Vec2f v1, cv::Vec2f v2) {
+		float vector (Vector<float> v1, Vector<float> v2) {
 			return v1[0]*v2[1]-v1[1]*v2[0];
 			
 			}
-		void updateMin(cv::Vec2f o, cv::Vec2f v1, cv::Vec2f diff1, Ray& ray, double& min){
+		void updateMin(Vector<float> o, Vector<float> v1, Vector<float> diff1, Ray& ray, double& min){
 			double d1, u1;
 			if(std::isinf(1/(vector(diff1, ray.dir))))
 				d1 = INFINITY;
@@ -31,11 +31,11 @@ class Rectangle: public Prim{
 		bool Intersect(Ray& ray){
 			double min = INFINITY;
 			double d1, d2, d3, d4, u1, u2,u3, u4;
-			cv::Vec2f o(ray.org);
-			cv::Vec2f diff1 = v2-v1; //a 
-			cv::Vec2f diff2 = v4-v1; //d
-			cv::Vec2f diff3 = v3-v4; //c
-			cv::Vec2f diff4 = v3-v2; //b
+			Vector<float> o(ray.org);
+			Vector<float> diff1 = v2-v1; //a 
+			Vector<float> diff2 = v4-v1; //d
+			Vector<float> diff3 = v3-v4; //c
+			Vector<float> diff4 = v3-v2; //b
 
 			updateMin(o, v1, diff1, ray, min);
 
@@ -49,9 +49,9 @@ class Rectangle: public Prim{
 			return !std::isinf(min);
 		}
 	private:
-		cv::Vec2f v1;
-		cv::Vec2f v2;
-		cv::Vec2f v3;
-		cv::Vec2f v4;
+		Vector<float> v1;
+		Vector<float> v2;
+		Vector<float> v3;
+		Vector<float> v4;
 	
 };

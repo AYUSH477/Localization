@@ -1,5 +1,5 @@
 #pragma once
-#include <opencv2/core/matx.hpp>
+//#include <opencv2/core/matx.hpp>
 #include <vector>	
 #include <memory>
 #include "Prim.h"
@@ -14,24 +14,18 @@ class Scene {
 			Objects.push_back(obj);
 			
 			}
-		double* Trace (Robot& r){
+		double* Trace (Robot &r){
 			
-			cv::Mat M(2,2,CV_32FC1);
 			
 			double * result = new double[r.Rays.size()+1];
 			int i = 0;
 			for(auto ray: r.Rays){
-				cv::Mat M(2,2,CV_32FC1);
-				M.at<float>(0,0) = cos(ray->angle);
-				M.at<float>(0,1) = -sin(ray->angle);
-				M.at<float>(1,0) = sin(ray->angle);
-				M.at<float>(1,1) = cos(ray->angle);
-				M = M*cv::Mat(r.dir);
-				ray->org = r.pos;
-				ray->dir = cv::Vec2f(M.at<float>(0,0), M.at<float>(1,0));
-				ray->dir = normalize(ray->dir);
+				//std::cout<<"pre in trace:"<<ray->dir[0]<<" "<<ray->dir[1]<<std::endl;
+				ray->dir.rotate(ray->angle);
+				//std::cout<<"post in trace:"<<ray->dir[0]<<" "<<ray->dir[1]<<std::endl;
+				ray->dir.normalize();
 				ray->t = INFINITY;
-				
+				ray->org = r.pos;
 				for(auto o: Objects){
 					
 					o->Intersect(*ray);

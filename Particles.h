@@ -7,6 +7,7 @@
 #include <random>
 #include <chrono>
 #include <cstdlib>
+//#include "Matrix.h"
 class Particles {
 	
 	private:
@@ -20,7 +21,7 @@ class Particles {
 
 	public:
 		
-		Particles(int n, double Xmi, double Xma, double Ymi, double Yma, std::vector<std::shared_ptr<Ray>> &v, cv::Vec2f dir, Scene *s):N(n), Xmin(Xmi), Ymin(Ymi), 
+		Particles(int n, double Xmi, double Xma, double Ymi, double Yma, std::vector<std::shared_ptr<Ray>> &v, Vector<float> dir, Scene *s):N(n), Xmin(Xmi), Ymin(Ymi), 
 		Xmax(Xma), Ymax(Yma){
 			for(auto rays:v)
 				r1.Rays.push_back(rays);
@@ -52,8 +53,9 @@ class Particles {
 			
 			for(int i=0;i<N;i++){
 
-				r1.pos = cv::Vec2f(particles[0][i], particles[1][i]);       	
-				double* simulatedPing = scene->Trace(r1);
+				r1.pos = Vector<float>(particles[0][i], particles[1][i]);
+				//double result[]={1, 2, 3};     	
+				double* simulatedPing =scene->Trace(r1);
 				double sumProb=0;
 				int nScanWithHit=0;
 				for (int k=0;k<r1.Rays.size();k++){
@@ -88,7 +90,7 @@ class Particles {
 			}    
 		}
 		
-		void updateDir(cv::Vec2f v){
+		void updateDir(Vector<float> v){
 			r1.dir = v;
 			}
 		

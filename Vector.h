@@ -1,4 +1,6 @@
+#pragma once
 #include <cmath>
+#include <iostream>
 template <typename T>
 class Vector{
     public:
@@ -21,6 +23,16 @@ class Vector{
             data=new T[n];
             position=0;
             dim=n;
+        }
+        Vector(const Vector &A){
+            data=new T[A.dim];
+            int i=0;
+            while(i<A.dim){
+                data[i]=A.data[i];
+                i++;
+            }
+            dim=A.dim;
+            position=A.position;
         }
         void push_back(T a){
             if(position==dim){
@@ -54,7 +66,7 @@ class Vector{
         int size(){
             return position;
         }
-        T operator [](int idx){
+        T& operator [](int idx){
             return data[idx];
         }
         Vector operator -(Vector &A){
@@ -93,12 +105,11 @@ class Vector{
             }
             this->position=A.position;
         }
-        void rotate(float a){
+        void rotate(double a){
             if(this->dim!=2){
                 std::cout<<"Rotate method for 2D vectors only"<<std::endl;
             }
-            float x;
-            x=data[0]*cos(a)-data[1]*sin(a);
+            T x = data[0]*cos(a)-data[1]*sin(a);
             data[1]=data[0]*sin(a)+data[1]*cos(a);
             data[0]=x;
         }
